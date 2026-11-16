@@ -73,7 +73,7 @@ The `User` data model represents information about users in the Villages.
 
 ```json
 {
-  "name": "Akash",
+  "name": "Khushal",
   "age": 15,
   "email": "khushalraut@gmail.com",
   "mobile": "9323453498",
