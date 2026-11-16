@@ -4,8 +4,7 @@ A voting web application built with **Node.js, Express.js, MongoDB (Mongoose) an
 Voters sign up with their Aadhar card number, vote for one candidate (once only), and see live results.
 One admin manages the candidate list and cannot vote.
 
-Based on the original project by Akash Bitle ([bitleakash6/Voting-WebApplication](https://github.com/bitleakash6/Voting-WebApplication)).
-The original repository contains the backend API only; the files in `public/` are a simple frontend added on top of it.
+
 
 ## Features
 - Sign up / log in with Aadhar card number (12 digits) + password (passwords stored as bcrypt hashes)
