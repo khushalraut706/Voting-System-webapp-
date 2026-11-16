@@ -1,226 +1,93 @@
-# 🎉 VOTE WAVE INDIA 🚀 💻
+# 🗳️ Vote Wave India
 
-Welcome to our voting web application! Powered by Node.js, Express.js, MongoDB, and Mongoose, Vote Wave India is a dynamic platform for managing users, candidates, and online voting.
+A voting web application built with **Node.js, Express.js, MongoDB (Mongoose) and JWT**.
+Voters sign up with their Aadhar card number, vote for one candidate (once only), and see live results.
+One admin manages the candidate list and cannot vote.
 
-Our platform allows users to register, participate in voting, and view real-time vote counts securely and conveniently.
+Based on the original project by Akash Bitle ([bitleakash6/Voting-WebApplication](https://github.com/bitleakash6/Voting-WebApplication)).
+The original repository contains the backend API only; the files in `public/` are a simple frontend added on top of it.
 
-## 📌 Features
+## Features
+- Sign up / log in with Aadhar card number (12 digits) + password (passwords stored as bcrypt hashes)
+- JWT authentication
+- View candidates and vote (one vote per user, admin cannot vote)
+- Live vote counts sorted by votes
+- Admin: add, update and delete candidates
+- Change password
+- Responsive frontend (mobile, tablet, desktop)
 
-- User Registration and Login
-- User Management
-- Candidate Management
-- Online Voting System
-- Vote Counting
-- Candidate Details
-- REST API Integration
-- MongoDB Database Integration
-
-## 🔗 API Endpoints
-
-### 1. UserRoutes
-
-**Add a User / Signup**
-- Method: `POST`
-- Endpoint: `/user`
-- Description: Adds a user to the system with details such as name, age, email, mobile number, address, and password.
-
-**Login User**
-- Method: `POST`
-- Endpoint: `/user`
-- Description: User login endpoint. Verify the actual backend route and authentication implementation.
-
-**Get All Users**
-- Method: `GET`
-- Endpoint: `/user`
-- Description: Retrieves a list of all users in the system.
-
-**Get User Profiles**
-- Method: `GET`
-- Endpoint: `/user/:profiles`
-- Description: Retrieves users based on their work type (e.g., chef, waiter, manager).
-
-**Update User Password**
-- Method: `PUT`
-- Endpoint: `/user/:password`
-- Description: Updates user details identified by their ID.
-
-### 2. CandidateRoutes
-
-**Add a Candidate**
-- Method: `POST`
-- Endpoint: `/candidate`
-- Description: Adds a candidate to the system.
-
-**Get All Candidates**
-- Method: `GET`
-- Endpoint: `/candidate`
-- Description: Retrieves all candidates from the system.
-
-**Update a Candidate**
-- Method: `PUT`
-- Endpoint: `/candidate/:candidateId`
-- Description: Updates candidate details using their ID.
-
-**Delete a Candidate**
-- Method: `DELETE`
-- Endpoint: `/candidate/:candidateId`
-- Description: Deletes a candidate using their ID.
-
-**Let's Vote**
-- Method: `POST`
-- Endpoint: `/candidate/vote/:candidateId`
-- Description: Adds a vote for a candidate based on their ID.
-
-**Vote Count**
-- Method: `GET`
-- Endpoint: `/candidate/vote/count`
-- Description: Retrieves the vote count of candidates.
-
-## 📊 Data Models
-
-### 1. User Model
-
-The User data model represents information about users in the system.
-
-**Fields:**
-- `name`: String (User's name)
-- `age`: Number (User's age)
-- `email`: Email address
-- `mobile`: String (User's mobile number)
-- `address`: String (User's address)
-- `aadharCardNumber`: Number (Unique Aadhaar card number)
-- `password`: String (User's password)
-
-**Example:**
-
-```json
-{
-  "name": "Akash",
-  "age": 15,
-  "email": "akash@gmail.com",
-  "mobile": "9323453434",
-  "address": "Chikhala",
-  "aadharCardNumber": 123123123123,
-  "password": "hashed_password"
-}
+## Project structure
 ```
-
-### 2. Candidate Model
-
-The Candidate data model represents information about candidates available for voting.
-
-**Fields:**
-- `name`: String (Candidate's name)
-- `party`: String (Candidate's political party)
-- `age`: Number (Candidate's age)
-- `votes`: Array (Candidate's votes)
-- `votesCount`: Number (Candidate's total vote count)
-
-**Example:**
-
-```json
-{
-  "name": "Narendra Modi Ji",
-  "party": "BJP",
-  "age": 72,
-  "votes": [],
-  "votesCount": 0
-}
-```
-
-## 🛠️ Technologies Used
-
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JavaScript
-- HTML
-- CSS
-
-## ⚙️ Installation and Setup
-
-### 1. Clone the Repository
-
-```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
-```
-
-### 2. Open Project Folder
-
-```bash
-cd Voting-WebApplication
-```
-
-### 3. Install Dependencies
-
-```bash
-npm install
-```
-
-### 4. Configure Environment Variables
-
-Create a `.env` file and configure your database connection and required environment variables.
-
-Example:
-
-```env
-PORT=5000
-MONGODB_URL=your_mongodb_connection_string
-```
-
-Use the actual environment variable names required by your backend.
-
-### 5. Run the Application
-
-Check the scripts available in `package.json` and run the appropriate command.
-
-For example:
-
-```bash
-npm start
-```
-
-Or:
-
-```bash
-npm run dev
-```
-
-## 📂 Project Structure
-
-```text
-Voting-WebApplication/
-│
-├── controllers/
+voting-webapp/
+├── public/                 # frontend (served by Express)
+│   ├── index.html
+│   ├── css/style.css
+│   └── js/app.js
 ├── models/
+│   ├── candidate.js
+│   └── user.js
 ├── routes/
-├── db/
-├── public/
-├── server.js
-├── package.json
-├── .env
+│   ├── candidateRoutes.js
+│   └── userRoutes.js
+├── scripts/createAdmin.js  # creates the admin account
+├── db.js                   # MongoDB connection
+├── jwt.js                  # JWT middleware + token generator
+├── server.js               # app entry point
+├── planning.txt            # original planning notes
+├── temp_data.json          # original sample candidate data
+├── .env.example
 ├── .gitignore
+├── package.json
 └── README.md
 ```
 
-Note: Update this structure according to your actual project folders and files.
+## Setup
+1. Install Node.js 18+ and MongoDB (local) or create a free MongoDB Atlas cluster.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create your environment file and edit the values:
+   ```bash
+   cp .env.example .env        # Windows: copy .env.example .env
+   ```
+4. Create the admin account (admins cannot be created through signup):
+   ```bash
+   npm run create-admin
+   ```
+5. Start the server:
+   ```bash
+   npm start          # or: npm run dev   (auto-restart with nodemon)
+   ```
+6. Open http://localhost:3000
 
-## 🔒 Security
+## API endpoints
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| GET | `/api` | – | Welcome message |
+| POST | `/user/signup` | – | Create a voter account, returns token |
+| POST | `/user/login` | – | Login with `aadharCardNumber` + `password`, returns token |
+| GET | `/user/profile` | Token | Logged-in user's profile |
+| PUT | `/user/profile/password` | Token | Body: `currentPassword`, `newPassword` |
+| GET | `/user` | Admin | List all users (no password hashes) |
+| GET | `/candidate` | – | List candidates |
+| POST | `/candidate` | Admin | Add candidate (`name`, `party`, `age`) |
+| PUT | `/candidate/:candidateId` | Admin | Update candidate |
+| DELETE | `/candidate/:candidateId` | Admin | Delete candidate |
+| POST | `/candidate/vote/:candidateId` | Token (voter) | Cast your single vote |
+| GET | `/candidate/vote/count` | – | Candidates sorted by vote count |
 
-- Protect user passwords using password hashing.
-- Keep database credentials inside environment variables.
-- Never upload your `.env` file to GitHub.
-- Validate user input and secure voting operations.
+Send the token as `Authorization: Bearer <token>`.
 
-## 👨‍💻 Author
+## Example requests
+```bash
+curl -X POST localhost:3000/user/signup -H "Content-Type: application/json" \
+  -d '{"name":"Akash","age":25,"address":"Pune","aadharCardNumber":122312231223,"password":"1234"}'
 
-**Your Name**
+curl -X POST localhost:3000/user/login -H "Content-Type: application/json" \
+  -d '{"aadharCardNumber":122312231223,"password":"1234"}'
+```
 
-GitHub: Add your GitHub profile link here.
-
-## ⭐ Support
-
-If you like this project, give it a star on GitHub!
-
-**Thank you for visiting Vote Wave India! 🎉**
+## Data models
+**User**: name, age, email, mobile, address, aadharCardNumber (unique, 12 digits), password, role (`voter` | `admin`), isVoted
+**Candidate**: name, party, age, votes[{ user, votedAt }], voteCount

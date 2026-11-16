@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vote Wave India</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>🗳️ Vote Wave India</h1>
+    <nav id="nav" class="hidden">
+      <button data-view="vote">Vote</button>
+      <button data-view="results">Results</button>
+      <button data-view="admin" id="navAdmin" class="hidden">Admin</button>
+      <button data-view="account">Account</button>
+      <button id="logoutBtn" class="ghost">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="toast" class="toast hidden" role="status"></div>
+
+    <!-- Auth -->
+    <section id="view-auth" class="card narrow">
+      <div class="tabs">
+        <button id="tabLogin" class="tab active">Login</button>
+        <button id="tabSignup" class="tab">Sign up</button>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <label>Aadhar card number
+          <input name="aadharCardNumber" inputmode="numeric" maxlength="12" placeholder="12 digits" required>
+        </label>
+        <label>Password
+          <input name="password" type="password" required>
+        </label>
+        <button type="submit">Login</button>
+      </form>
+
+      <form id="signupForm" class="hidden" novalidate>
+        <label>Full name <input name="name" required></label>
+        <div class="row">
+          <label>Age <input name="age" type="number" min="1" max="120" required></label>
+          <label>Mobile <input name="mobile" inputmode="tel" maxlength="15"></label>
+        </div>
+        <label>Email <input name="email" type="email"></label>
+        <label>Address <input name="address" required></label>
+        <label>Aadhar card number
+          <input name="aadharCardNumber" inputmode="numeric" maxlength="12" placeholder="12 digits" required>
+        </label>
+        <label>Password (min 4 characters) <input name="password" type="password" minlength="4" required></label>
+        <button type="submit">Create account</button>
+      </form>
+    </section>
+
+    <!-- Vote -->
+    <section id="view-vote" class="hidden">
+      <div class="card">
+        <h2>Cast your vote</h2>
+        <p id="voteStatus" class="muted"></p>
+        <div id="candidateList" class="grid"></div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section id="view-results" class="hidden">
+      <div class="card">
+        <div class="between">
+          <h2>Live results</h2>
+          <button id="refreshResults" class="ghost">Refresh</button>
+        </div>
+        <div id="resultsList"></div>
+      </div>
+    </section>
+
+    <!-- Admin -->
+    <section id="view-admin" class="hidden">
+      <div class="card">
+        <h2 id="candFormTitle">Add candidate</h2>
+        <form id="candidateForm" novalidate>
+          <input type="hidden" name="id">
+          <div class="row">
+            <label>Name <input name="name" required></label>
+            <label>Party <input name="party" required></label>
+            <label>Age <input name="age" type="number" min="1" required></label>
+          </div>
+          <div class="row">
+            <button type="submit" id="candSubmit">Add candidate</button>
+            <button type="button" id="candCancel" class="ghost hidden">Cancel edit</button>
+          </div>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Manage candidates</h2>
+        <div id="adminList"></div>
+      </div>
+    </section>
+
+    <!-- Account -->
+    <section id="view-account" class="hidden">
+      <div class="card narrow">
+        <h2>Profile</h2>
+        <dl id="profileBox" class="profile"></dl>
+      </div>
+      <div class="card narrow">
+        <h2>Change password</h2>
+        <form id="passwordForm" novalidate>
+          <label>Current password <input name="currentPassword" type="password" required></label>
+          <label>New password <input name="newPassword" type="password" minlength="4" required></label>
+          <button type="submit">Update password</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
