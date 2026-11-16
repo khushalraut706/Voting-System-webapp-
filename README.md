@@ -1,92 +1,122 @@
-# 🗳️ Vote Wave India
+# 🎉 VOTE WAVE INDIA 🚀 💻
 
-A voting web application built with **Node.js, Express.js, MongoDB (Mongoose) and JWT**.
-Voters sign up with their Aadhar card number, vote for one candidate (once only), and see live results.
-One admin manages the candidate list and cannot vote.
+🌱 Welcome to our voting web app! Powered by Node.js, Express.js, MongoDB, and Mongoose, we've created a dynamic platform for all your voting needs. 🚀 Create, participate, and view real-time updates on polls, surveys, and elections with ease. 💻 Your voice matters, and we're here to make sure it's heard securely and conveniently. Let's vote together! 🎉
 
+[Live](YOUR_LIVE_DEMO_LINK)
 
+## Endpoints
 
-## Features
-- Sign up / log in with Aadhar card number (12 digits) + password (passwords stored as bcrypt hashes)
-- JWT authentication
-- View candidates and vote (one vote per user, admin cannot vote)
-- Live vote counts sorted by votes
-- Admin: add, update and delete candidates
-- Change password
-- Responsive frontend (mobile, tablet, desktop)
+### UserRoutes
 
-## Project structure
+- **Add a User/Signup:**
+  - Endpoint: `POST /user`
+  - Description: Adds a user to the system with details such as name, role, etc.
+
+- **Add a User/Login:**
+  - Endpoint: `POST /user`
+  - Description: Adds a user to the system with details such as name, role, etc.
+
+- **Get All User:**
+  - Endpoint: `GET /user`
+  - Description: Retrieves a list of all user in the system.
+
+- **Get User Profiles:**
+  - Endpoint: `GET /user/:profiles`
+  - Description: Retrieves a list of user based on their work type (e.g., chef, waiter, manager).
+
+- **Update User using Password:**
+  - Endpoint: `PUT /user/:password`
+  - Description: Updates the details of a specific person identified by their ID.
+
+### CandidateRoutes
+
+- **Add a Candidate:**
+  - Endpoint: `POST /candidate`
+  - Description: Adds a candidate to the system with details such as name, etc.
+
+- **Get All Menu Items:**
+  - Endpoint: `GET /candidate`
+  - Description: Retrieves a list of all candidate in the system.
+
+- **Update a Menu Item:**
+  - Endpoint: `PUT /candidate/:candidateId`
+  - Description: Updates the details of a specific candidate identified by its ID.
+
+- **Delete a Menu Item:**
+  - Endpoint: `DELETE /candidate/:candidateId`
+  - Description: Deletes a candidate from the system based on its ID.
+
+- **Let's Voting:**
+  - Endpoint: `POST /candidate/vote/:candidateId`
+  - Description: Adds a candidate vote from the system based on its ID.
+
+- **Vote Count:**
+  - Endpoint: `GET /candidate/vote/count`
+  - Description: Gets a candidate vote count from the system.
+
+## Data Models
+
+### User
+
+The `User` data model represents information about users in the Villages.
+
+- **Fields:**
+  - `name` : String (User's name)
+  - `age` : Number (User's age)
+  - `email` : Enum (User's email)
+  - `mobile` : String (User's mobile number)
+  - `address` : String (User's address)
+  - `aadharCardNumber` : Number (User's aadharcard number, unique)
+  - `password` : String (User's password)
+
+- **Example:**
+
+```json
+{
+  "name": "Akash",
+  "age": 15,
+  "email": "khushalraut@gmail.com",
+  "mobile": "9323453498",
+  "address": "Bhandara",
+  "aadharCardNumber": 122312321223,
+  "password": "1234"
+}
 ```
-voting-webapp/
-├── public/                 # frontend (served by Express)
-│   ├── index.html
-│   ├── css/style.css
-│   └── js/app.js
-├── models/
-│   ├── candidate.js
-│   └── user.js
-├── routes/
-│   ├── candidateRoutes.js
-│   └── userRoutes.js
-├── scripts/createAdmin.js  # creates the admin account
-├── db.js                   # MongoDB connection
-├── jwt.js                  # JWT middleware + token generator
-├── server.js               # app entry point
-├── planning.txt            # original planning notes
-├── temp_data.json          # original sample candidate data
-├── .env.example
-├── .gitignore
-├── package.json
-└── README.md
+
+### Candidate
+
+The `MenuItem` data model represents information about menu items available in the hotel.
+
+- **Fields:**
+  - `name` : String (Candidate's name)
+  - `party` : String (Candidate's party ex: BJP, NCP)
+  - `age` : Number (Candidate's age)
+  - `votes` : Array (Candidate's votes)
+  - `voteCount` : Number (Candidate's vote count)
+
+- **Example:**
+
+```json
+{
+  "name": "Narendra ModiJi",
+  "party": "BJP",
+  "age": 72
+}
 ```
 
-## Setup
-1. Install Node.js 18+ and MongoDB (local) or create a free MongoDB Atlas cluster.
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create your environment file and edit the values:
-   ```bash
-   cp .env.example .env        # Windows: copy .env.example .env
-   ```
-4. Create the admin account (admins cannot be created through signup):
-   ```bash
-   npm run create-admin
-   ```
-5. Start the server:
-   ```bash
-   npm start          # or: npm run dev   (auto-restart with nodemon)
-   ```
-6. Open http://localhost:3000
+## Usage
 
-## API endpoints
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| GET | `/api` | – | Welcome message |
-| POST | `/user/signup` | – | Create a voter account, returns token |
-| POST | `/user/login` | – | Login with `aadharCardNumber` + `password`, returns token |
-| GET | `/user/profile` | Token | Logged-in user's profile |
-| PUT | `/user/profile/password` | Token | Body: `currentPassword`, `newPassword` |
-| GET | `/user` | Admin | List all users (no password hashes) |
-| GET | `/candidate` | – | List candidates |
-| POST | `/candidate` | Admin | Add candidate (`name`, `party`, `age`) |
-| PUT | `/candidate/:candidateId` | Admin | Update candidate |
-| DELETE | `/candidate/:candidateId` | Admin | Delete candidate |
-| POST | `/candidate/vote/:candidateId` | Token (voter) | Cast your single vote |
-| GET | `/candidate/vote/count` | – | Candidates sorted by vote count |
+1. **Install Dependencies:**
 
-Send the token as `Authorization: Bearer <token>`.
-
-## Example requests
 ```bash
-curl -X POST localhost:3000/user/signup -H "Content-Type: application/json" \
-  -d '{"name":"Akash","age":25,"address":"Pune","aadharCardNumber":122312231223,"password":"1234"}'
-
-curl -X POST localhost:3000/user/login -H "Content-Type: application/json" \
-  -d '{"aadharCardNumber":122312231223,"password":"1234"}'
+npm install
 ```
 
-## Data models
-**User**: name, age, email, mobile, address, aadharCardNumber (unique, 12 digits), password, role (`voter` | `admin`), isVoted
-**Candidate**: name, party, age, votes[{ user, votedAt }], voteCount
+## APIs Used
+
+1. **Node.js:** Used as the JavaScript runtime environment for the backend.
+2. **Express.js:** Used to create server routes and handle HTTP requests.
+3. **MongoDB:** Used as the database to store user and candidate information.
+4. **Mongoose:** Used for database connection and data modeling.
+5. **REST APIs:** Used for communication between the frontend and backend through HTTP methods such as GET, POST, PUT, and DELETE.
+
